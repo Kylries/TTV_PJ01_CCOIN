@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+
+  "name": "Auto Click",
+  "description": "This allows the extension to auto click Buy button after time out",
+  "version": "1.0",
+
+"browser_action": {
+    "default_icon": {"38": "auto.png"},
+    "default_popup": "popup.html"
+},
+
+ "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+},
+    "permissions": ["activeTab","tabs","https://wake.unixcoin.com/*"]
+}
