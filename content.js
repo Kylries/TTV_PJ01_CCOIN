@@ -1,10 +1,31 @@
 var calibrating = 0;
-console.log(calibrating);
 var delay_click = 3000;
 var count = 2;
 var delay_out_of_min;
 var delay_out_of_second;
 var delay_click_again;
+getSavedValue("timecalibrate",(valueReturn) => {
+   if (valueReturn)
+   {
+       calibrating = valueReturn;
+   }
+   else
+   {
+       calibrating = 500;
+   }
+   console.log(calibrating);
+});
+getSavedValue("timeclick",(valueReturn) => {
+   if (valueReturn)
+   {
+       count = valueReturn;
+   }
+   else
+   {
+       count = 2;
+   }
+   console.log(count);
+});
 restart();
 function out_of_min() 
 {
@@ -40,19 +61,30 @@ function click_button()
 
 function restart()
 {
-//hh = parseInt(document.getElementById("ico-open-hh").textContent, 10);
-//mm = parseInt(document.getElementById("ico-open-mm").textContent, 10);
-//ss = parseInt(document.getElementById("ico-open-ss").textContent, 10);var hh=0;
-var hh=0;
-var mm=1;
-var ss =10;
-var delay = 1000000;
-count = 2;
-delay = hh*3600 + mm*60 + ss;
-if(delay >30)
-    delay = delay - 30;
-else
-    delay = 1;
-delay_out_of_min = setInterval(out_of_min, delay*1000);
-console.log(delay);
+    var delay = 1000000;
+    count = 2;
+    //hh = parseInt(document.getElementById("ico-open-hh").textContent, 10);
+    //mm = parseInt(document.getElementById("ico-open-mm").textContent, 10);
+    //ss = parseInt(document.getElementById("ico-open-ss").textContent, 10);var hh=0;
+    var hh=0;
+    var mm=1;
+    var ss =10;
+
+    delay = hh*3600 + mm*60 + ss;
+    if(delay >30)
+        delay = delay - 30;
+    else
+        delay = 1;
+    delay_out_of_min = setInterval(out_of_min, delay*1000);
+    console.log(delay);
+}
+function saveValue(key, value) {
+  var items = {};
+  items[key] = value;
+  chrome.storage.sync.set(items);
+}
+function getSavedValue(key, callback) {
+  chrome.storage.sync.get(key, (items) => {
+    callback(items[key]);
+  });
 }
